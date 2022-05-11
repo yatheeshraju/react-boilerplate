@@ -10,7 +10,7 @@ import '@babel/polyfill';
 
 // Import all the third party stuff
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import history from 'utils/history';
@@ -36,10 +36,10 @@ import { translationMessages } from './i18n';
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
-const MOUNT_NODE = document.getElementById('app');
+const MOUNT_NODE = ReactDOM.createRoot(document.getElementById('app'));
 
 const render = messages => {
-  ReactDOM.render(
+  MOUNT_NODE.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
@@ -47,7 +47,6 @@ const render = messages => {
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
-    MOUNT_NODE,
   );
 };
 
